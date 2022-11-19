@@ -2,10 +2,11 @@ import os
 import subprocess
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
-path = "selectedAPKs//selectedAPKs//"
+#path = "selectedAPKs//selectedAPKs//"
+path = "selectedAPKs//"
 
-# for file in os.listdir(path):
-#     os.system("apktool d -f "+ path+file+" -o decoded//"+file)
+for file in os.listdir(path):
+    os.system("apktool d -f "+ path+file+" -o decoded//"+file)
 
 decodedPath = "decoded//"
 permissionsDict = {}
@@ -25,6 +26,12 @@ for dir in os.listdir(decodedPath):
 
 permissionsDict = dict(sorted(permissionsDict.items(), key=lambda item: item[1], reverse=True)) 
 appDict = dict(sorted(appDict.items(), key=lambda item: item[1], reverse=True)) 
+
+for x in list(permissionsDict.items())[:10]:
+    print (x)
+for x in list(appDict.items())[:10]:
+    print (x)  
+
 lineGraphData = {}
 for item in appDict.items():
     # print(item[1])
@@ -41,16 +48,13 @@ for item in lineGraphData.items():
     lineGraphDataX.append(item[0])
     lineGraphDataY.append(item[1])
     
-plt.plot(lineGraphDataX, lineGraphDataY)
+plt.plot(lineGraphDataX, lineGraphDataY, marker='*')
 plt.title('App Permissions')
 plt.xlabel('# of permissions requested by the apps')
 plt.ylabel('# of apps that request a specific number of permissions')
+plt.savefig('App_permisson_plot.png')
 plt.show()
 
-for x in list(permissionsDict.items())[:10]:
-    print (x)
-for x in list(appDict.items())[:10]:
-    print (x)  
 
 
 
